@@ -1,24 +1,64 @@
 import { Link } from 'react-router-dom'
-import { FiCheckCircle, FiPhoneCall, FiCalendar, FiArrowRight } from 'react-icons/fi'
+import {
+  FiActivity,
+  FiArrowRight,
+  FiBarChart2,
+  FiCalendar,
+  FiCheckCircle,
+  FiPhoneCall,
+  FiPlay,
+  FiTrendingUp,
+  FiUsers,
+} from 'react-icons/fi'
 import { courseCategories } from '../data/courses'
 
 export function HomePage() {
   const featuredCourses = courseCategories.slice(0, 3)
+  const heroFeed = [
+    {
+      time: '08:24',
+      title: 'New course published',
+      detail: 'Toddler STEAM Adventures is now live',
+    },
+    {
+      time: '09:05',
+      title: 'Live class starting',
+      detail: 'Circle Time Coaching · Room 3',
+    },
+    {
+      time: '09:42',
+      title: 'Certificate earned',
+      detail: 'Instructor J. Patel · SEL Foundations',
+    },
+  ]
+  const heroProgress = [
+    { label: 'Family engagement campaign', value: 72 },
+    { label: 'Teacher coaching loops', value: 58 },
+    { label: 'Compliance checklist', value: 91 },
+  ]
 
   return (
     <main className="home-page">
-      <section id="home" className="hero">
+      <section id="home" className="hero" data-animate>
+        <div className="hero-pattern" aria-hidden="true">
+          <span className="orb orb-one" />
+          <span className="orb orb-two" />
+          <span className="hero-grid" />
+        </div>
         <div className="container hero-content">
-          <div className="hero-text">
-            <span className="eyebrow">Brightside Academy LMS</span>
+          <div className="hero-text" data-animate data-animate-delay="0s">
+            <div className="status-pill">
+              <span className="pulse-dot" />
+              Platform update · v3.7 Phoenix
+            </div>
             <h1>
-              Ignite Early Learning with a Connected{' '}
-              <span className="highlight">Learning Management System</span>
+              Ignite joyful learning with a connected{' '}
+              <span className="highlight">Brightside LMS campus</span>
             </h1>
             <p>
-              Deliver joyful, data-informed experiences for students, instructors, and administrators
-              across every Brightside campus. Centralize curriculum, track progress in real time, and
-              empower educators with AI-assisted insights.
+              Centralize curriculum, coaching, and communication in one immersive platform.
+              Brightside LMS keeps students inspired, teachers orchestrated, and administrators ready
+              to scale excellence across every center.
             </p>
             <div className="hero-actions">
               <Link className="btn-solid" to="/#contact">
@@ -27,6 +67,26 @@ export function HomePage() {
               <Link className="btn-outline" to="/courses">
                 Explore Courses
               </Link>
+              <Link className="btn-outline-light hero-demo" to="/lms">
+                <FiPlay /> Watch LMS tour
+              </Link>
+            </div>
+            <div className="hero-signal">
+              <FiActivity />
+              <div>
+                <strong>Live activity: 128 campuses online</strong>
+                <span>Ms. Ava logged a STEAM observation 2 minutes ago</span>
+              </div>
+            </div>
+            <div className="hero-mini-metrics">
+              <div>
+                <FiUsers />
+                <span>4,800+ learners thriving this week</span>
+              </div>
+              <div>
+                <FiBarChart2 />
+                <span>94% on-time course completion</span>
+              </div>
             </div>
             <ul className="hero-benefits">
               <li>
@@ -40,35 +100,65 @@ export function HomePage() {
               </li>
             </ul>
           </div>
-          <div className="hero-card">
-            <div className="hero-card-header">
-              <span className="badge">Live Peek</span>
-              <h3>Today at Brightside</h3>
-              <p>7 new families toured, 18 observations logged, 3 centers reached 100% mastery.</p>
-            </div>
-            <div className="hero-metrics">
-              <div>
-                <h4>4,800+</h4>
-                <p>Active Learners</p>
+          <div className="hero-showcase" data-animate data-animate-delay="0.12s">
+            <article className="showcase-card live-feed">
+              <header>
+                <span className="badge soft">Live feed</span>
+                <strong>Today at Brightside</strong>
+              </header>
+              <ul className="live-feed-list">
+                {heroFeed.map((event) => (
+                  <li key={event.time}>
+                    <span className="feed-time">{event.time}</span>
+                    <div>
+                      <strong>{event.title}</strong>
+                      <small>{event.detail}</small>
+                    </div>
+                  </li>
+                ))}
+              </ul>
+            </article>
+            <article className="showcase-card progress">
+              <header>
+                <span className="badge">Momentum</span>
+                <strong>Team progress pulse</strong>
+              </header>
+              <div className="progress-list">
+                {heroProgress.map((item) => (
+                  <div key={item.label} className="progress-row">
+                    <span>{item.label}</span>
+                    <div className="progress-track" role="presentation">
+                      <span style={{ '--progress-value': `${item.value}%` }} />
+                    </div>
+                    <strong>{item.value}%</strong>
+                  </div>
+                ))}
               </div>
-              <div>
-                <h4>94%</h4>
-                <p>Course Completion</p>
+              <div className="sparkline">
+                <FiTrendingUp />
+                <div>
+                  <strong>+18%</strong>
+                  <span>Week-over-week engagement</span>
+                </div>
               </div>
-              <div>
-                <h4>38%</h4>
-                <p>Prep Time Saved</p>
+            </article>
+            <div className="showcase-kpis">
+              <div className="kpi-card">
+                <span>Parent satisfaction</span>
+                <strong>4.8 ★</strong>
+                <small>Across 42 regional centers</small>
               </div>
-            </div>
-            <div className="hero-card-footer">
-              <FiCalendar />
-              <span>Parent-teacher conferences kick off next week — all scheduled in the LMS.</span>
+              <div className="kpi-card alt">
+                <span>Prep time saved</span>
+                <strong>38%</strong>
+                <small>Automated lesson design</small>
+              </div>
             </div>
           </div>
         </div>
       </section>
 
-      <section id="courses" className="section courses-preview">
+      <section id="courses" className="section courses-preview" data-animate>
         <div className="container">
           <div className="section-header">
             <span className="eyebrow">Courses</span>
@@ -80,8 +170,13 @@ export function HomePage() {
             </p>
           </div>
           <div className="cards-grid">
-            {featuredCourses.map((category) => (
-              <article key={category.id} className="course-card">
+            {featuredCourses.map((category, index) => (
+              <article
+                key={category.id}
+                className="course-card"
+                data-animate
+                data-animate-delay={`${0.08 * index}s`}
+              >
                 <div className="card-header">
                   <span className={`badge badge-${category.badge.toLowerCase()}`}>
                     {category.badge}
@@ -113,7 +208,7 @@ export function HomePage() {
         </div>
       </section>
 
-      <section id="about" className="section about">
+      <section id="about" className="section about" data-animate>
         <div className="container about-grid">
           <div className="about-summary">
             <span className="eyebrow">About Brightside Academy</span>
@@ -124,21 +219,21 @@ export function HomePage() {
               keeps teams aligned, data transparent, and every child&apos;s experience personalized.
             </p>
             <ul className="about-pillars">
-              <li>
+              <li data-animate data-animate-delay="0s">
                 <span>01</span>
                 <div>
                   <h4>Whole-child Framework</h4>
                   <p>Social-emotional, cognitive, and physical development tracked in one place.</p>
                 </div>
               </li>
-              <li>
+              <li data-animate data-animate-delay="0.08s">
                 <span>02</span>
                 <div>
                   <h4>Empowered Educators</h4>
                   <p>Professional learning paths and coaching loops that spark classroom innovation.</p>
                 </div>
               </li>
-              <li>
+              <li data-animate data-animate-delay="0.16s">
                 <span>03</span>
                 <div>
                   <h4>Family Partnership</h4>
@@ -148,27 +243,27 @@ export function HomePage() {
             </ul>
           </div>
           <div className="about-stats">
-            <div className="stat-card">
-              <h3>42</h3>
-              <p>Centers sharing best practices through the LMS</p>
-            </div>
-            <div className="stat-card">
-              <h3>1.2M</h3>
-              <p>Learning moments documented annually</p>
-            </div>
-            <div className="stat-card">
-              <h3>4.8★</h3>
-              <p>Average family satisfaction rating</p>
-            </div>
-            <div className="stat-card">
-              <h3>98%</h3>
-              <p>Staff credential compliance rate</p>
-            </div>
+            {[
+              { label: 'Centers sharing best practices through the LMS', value: '42' },
+              { label: 'Learning moments documented annually', value: '1.2M' },
+              { label: 'Average family satisfaction rating', value: '4.8★' },
+              { label: 'Staff credential compliance rate', value: '98%' },
+            ].map((stat, index) => (
+              <div
+                key={stat.label}
+                className="stat-card"
+                data-animate
+                data-animate-delay={`${0.06 * index}s`}
+              >
+                <h3>{stat.value}</h3>
+                <p>{stat.label}</p>
+              </div>
+            ))}
           </div>
         </div>
       </section>
 
-      <section id="partnerships" className="section partnership">
+      <section id="partnerships" className="section partnership" data-animate>
         <div className="container partnership-content">
           <div>
             <span className="eyebrow">Partner With Us</span>
@@ -179,26 +274,39 @@ export function HomePage() {
             </p>
           </div>
           <div className="partnership-steps">
-            <div className="step">
-              <span>Step 1</span>
-              <h4>Discovery & Visioning</h4>
-              <p>Collaborative workshops to map current state, goals, and change-management needs.</p>
-            </div>
-            <div className="step">
-              <span>Step 2</span>
-              <h4>Configuration & Training</h4>
-              <p>Configure pathways, permissions, and integrations with hands-on educator bootcamps.</p>
-            </div>
-            <div className="step">
-              <span>Step 3</span>
-              <h4>Launch & Continuous Coaching</h4>
-              <p>Quarterly impact reviews to keep your teams inspired and on track.</p>
-            </div>
+            {[
+              {
+                step: 'Step 1',
+                title: 'Discovery & Visioning',
+                copy: 'Collaborative workshops to map current state, goals, and change-management needs.',
+              },
+              {
+                step: 'Step 2',
+                title: 'Configuration & Training',
+                copy: 'Configure pathways, permissions, and integrations with hands-on educator bootcamps.',
+              },
+              {
+                step: 'Step 3',
+                title: 'Launch & Continuous Coaching',
+                copy: 'Quarterly impact reviews to keep your teams inspired and on track.',
+              },
+            ].map((item, index) => (
+              <div
+                key={item.title}
+                className="step"
+                data-animate
+                data-animate-delay={`${0.08 * index}s`}
+              >
+                <span>{item.step}</span>
+                <h4>{item.title}</h4>
+                <p>{item.copy}</p>
+              </div>
+            ))}
           </div>
         </div>
       </section>
 
-      <section id="contact" className="section contact">
+      <section id="contact" className="section contact" data-animate>
         <div className="container contact-grid">
           <div className="contact-summary">
             <span className="eyebrow">Contact Us</span>
@@ -226,7 +334,7 @@ export function HomePage() {
               </div>
             </div>
           </div>
-          <form className="contact-form">
+          <form className="contact-form" data-animate data-animate-delay="0.12s">
             <div className="form-row">
               <div className="form-field">
                 <label htmlFor="name">Full Name</label>
