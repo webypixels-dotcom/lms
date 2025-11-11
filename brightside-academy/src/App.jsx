@@ -30,6 +30,46 @@ function AppLayout() {
     window.scrollTo({ top: 0, behavior: 'smooth' })
   }, [location.pathname, location.hash, scrollToHash])
 
+  useEffect(() => {
+    const elements = Array.from(document.querySelectorAll('[data-animate]'))
+    if (!elements.length) return undefined
+
+    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+
+    if (prefersReducedMotion) {
+      elements.forEach((element) => element.classList.add('is-visible'))
+      return undefined
+    }
+
+    const observer = new IntersectionObserver(
+      (entries, obs) => {
+        entries.forEach((entry) => {
+          if (!entry.isIntersecting) return
+          const target = entry.target
+          const delay = target.getAttribute('data-animate-delay')
+          if (delay) {
+            target.style.setProperty('--reveal-delay', delay)
+          }
+          target.classList.add('is-visible')
+          obs.unobserve(target)
+        })
+      },
+      {
+        rootMargin: '0px 0px -10% 0px',
+        threshold: 0.12,
+      },
+    )
+
+    elements.forEach((element) => {
+      if (!element.classList.contains('is-visible')) {
+        element.style.setProperty('--reveal-delay', element.getAttribute('data-animate-delay') || '0s')
+        observer.observe(element)
+      }
+    })
+
+    return () => observer.disconnect()
+  }, [location.pathname])
+
   const handleInquire = useCallback(() => {
     if (location.pathname !== '/') {
       navigate('/#contact')
