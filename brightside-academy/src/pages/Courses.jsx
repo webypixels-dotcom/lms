@@ -3,15 +3,15 @@ import { FiArrowUpRight, FiBookOpen, FiSliders } from 'react-icons/fi'
 import { useMemo, useState } from 'react'
 import { courseCategories } from '../data/courses'
 
-const filters = [
-  { id: 'all', label: 'All Programs' },
-  { id: 'early-childhood', label: 'Early Childhood' },
-  { id: 'compliance', label: 'Compliance & Safety' },
-  { id: 'leadership', label: 'Leadership' },
-]
-
 export function CoursesPage() {
   const [activeFilter, setActiveFilter] = useState('all')
+
+  const filters = useMemo(() => {
+    return [
+      { id: 'all', label: 'All Programs' },
+      ...courseCategories.map(({ id, name }) => ({ id, label: name })),
+    ]
+  }, [courseCategories])
 
   const filteredCategories = useMemo(() => {
     if (activeFilter === 'all') return courseCategories
